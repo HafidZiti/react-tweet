@@ -1,8 +1,9 @@
 import React from "react";
-import { TweetCard, TweetProps } from "../tweet-card";
+import { Tweet } from "../../pages/api/tweets";
+import { TweetCard } from "../tweet-card";
 
 export interface TweetsListProps {
-  tweets: TweetProps[];
+  tweets: Tweet[];
 }
 
 export const TweetsList: React.FC<TweetsListProps> = (

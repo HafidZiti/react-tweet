@@ -1,37 +1,26 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useEffect } from "react";
 import { useQuery } from "react-query";
+import { useDispatch, useSelector } from "react-redux";
 import { NewTweet } from "../components/new-tweet";
 import { TweetsList } from "../components/tweets-list";
+import { RootState } from "../redux/store";
+import { setTweets } from "../redux/tweetsSlice";
 import styles from "../styles/Home.module.css";
 
-export const mock = {
-  tweets: [
-    {
-      id: "Id1",
-      content: "nfkjrekfjn kjnrfefnkazd zefkljerfkjl",
-      date: "01-13-22:20:20",
-      likes: 554,
-    },
-    {
-      id: "Id1",
-      content: "nfkjrekfjn kjnrfefnkazd zefkljerfkjl",
-      date: "01-13-22:20:20",
-      likes: 554,
-    },
-    {
-      id: "Id1",
-      content: "nfkjrekfjn kjnrfefnkazd zefkljerfkjl",
-      date: "01-13-22:20:20",
-      likes: 554,
-    },
-  ],
-};
-
 export default function Home() {
+  const tweets = useSelector((state: RootState) => state.tweets.value);
+  const dispatch = useDispatch();
+
   const { isLoading, error, data } = useQuery("repoData", () =>
     fetch("./api/tweets").then((res) => res.json())
   );
+
+  // Fixme: to be improved bu redux-saga
+  useEffect(() => {
+    dispatch(setTweets(data?.tweets ?? []));
+  }, [data, dispatch]);
 
   return (
     <div className={styles.container}>
@@ -47,12 +36,13 @@ export default function Home() {
         </h1>
         <div className={styles.tweetContainer}>
           <NewTweet />
+          {tweets.length === 0 && <h3>No tweet for the moment!</h3>}
           {isLoading ? (
             "loading..."
           ) : error ? (
             "An error has occurred: " + error
           ) : (
-            <TweetsList {...data} />
+            <TweetsList tweets={tweets} />
           )}
         </div>
       </main>

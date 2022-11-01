@@ -1,17 +1,22 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Tweet as TweetProps } from "../../pages/api/tweets";
+import { dislikeTweet, likeTweet } from "../../redux/tweetsSlice";
 import styles from "./Card.module.css";
-
-export interface TweetProps {
-  id: string;
-  content: string;
-  date: string;
-  likes: number;
-}
 
 export const TweetCard: React.FC<TweetProps> = (props: TweetProps) => {
   const [isAlreadyLiked, setIsAlreadyLiked] = useState(false);
+  const dispatch = useDispatch();
 
-  const handleLike = (): void => {};
+  const handleLike = (): void => {
+    if (isAlreadyLiked) {
+      dispatch(dislikeTweet(props.id));
+      setIsAlreadyLiked(!isAlreadyLiked);
+    } else {
+      dispatch(likeTweet(props.id));
+      setIsAlreadyLiked(!isAlreadyLiked);
+    }
+  };
 
   return (
     <div className={styles.tweetContainer}>
@@ -23,7 +28,7 @@ export const TweetCard: React.FC<TweetProps> = (props: TweetProps) => {
           </button>
           <span>{props.likes}</span>
         </div>
-        <div className={styles.tweetDate}>{props.date}</div>
+        <div className={styles.tweetDate}>{props.datetime}</div>
       </div>
     </div>
   );
