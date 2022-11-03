@@ -6,21 +6,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { NewTweet } from "../components/new-tweet";
 import { TweetsList } from "../components/tweets-list";
 import { RootState } from "../redux/store";
-import { setTweets } from "../redux/tweetsSlice";
+import { initTweets, setTweets } from "../redux/tweetsSlice";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
   const tweets = useSelector((state: RootState) => state.tweets.value);
   const dispatch = useDispatch();
 
-  const { isLoading, error, data } = useQuery("repoData", () =>
-    fetch("./api/tweets").then((res) => res.json())
-  );
+  // const { isLoading, error, data } = useQuery("repoData", () =>
+  //   fetch("./api/tweets").then((res) => res.json())
+  // );
 
   // Fixme: to be improved bu redux-saga
   useEffect(() => {
-    dispatch(setTweets(data?.tweets ?? []));
-  }, [data, dispatch]);
+    dispatch(initTweets());
+  }, [dispatch]);
 
   return (
     <div className={styles.container}>
@@ -32,18 +32,12 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">React-Tweet!</a>
+          Welcome to <a href="https://react-tweet.vercel.app/">React-Tweet!</a>
         </h1>
         <div className={styles.tweetContainer}>
           <NewTweet />
           {tweets.length === 0 && <h3>No tweet for the moment!</h3>}
-          {isLoading ? (
-            "loading..."
-          ) : error ? (
-            "An error has occurred: " + error
-          ) : (
-            <TweetsList tweets={tweets} />
-          )}
+          {<TweetsList tweets={tweets} />}
         </div>
       </main>
 

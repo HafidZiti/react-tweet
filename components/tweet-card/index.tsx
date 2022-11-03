@@ -28,7 +28,9 @@ export const TweetCard: React.FC<TweetProps> = (props: TweetProps) => {
           </button>
           <span>{props.likes}</span>
         </div>
-        <div className={styles.tweetDate}>{props.datetime}</div>
+        <div className={styles.tweetDate}>
+          {new Date(props.datetime).toLocaleString()}
+        </div>
       </div>
     </div>
   );
