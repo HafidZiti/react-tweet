@@ -39,11 +39,21 @@ export const tweetsSlice = createSlice({
         return tweet;
       });
     },
+    addTweet: (state, action: PayloadAction<Tweet>) => {
+      state.value = [action.payload, ...state.value];
+    },
+    loadMore: (state, action: PayloadAction<number>) => {},
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { initTweets, setTweets, likeTweet, dislikeTweet } =
-  tweetsSlice.actions;
+export const {
+  initTweets,
+  setTweets,
+  likeTweet,
+  dislikeTweet,
+  addTweet,
+  loadMore,
+} = tweetsSlice.actions;
 
 export default tweetsSlice.reducer;

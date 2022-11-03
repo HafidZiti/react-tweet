@@ -1,0 +1,24 @@
+.listContainer {
+  margin: 20px 0;
+}
+
+.loadMore {
+  margin-top: 10px;
+  width: 100px;
+  height: 30px;
+  align-self: flex-end;
+  background-color: black;
+  border: black;
+  border-radius: 3px;
+  color: white;
+  cursor: pointer;
+}
+
+.loadMore:hover {
+  opacity: 0.8;
+}
+
+.loadMore:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
